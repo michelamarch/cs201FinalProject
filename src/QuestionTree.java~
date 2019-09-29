@@ -1,0 +1,107 @@
+/**
+ * QuestionTree holds the tree created by the XMLReader
+ * @author Michela Marchini
+ * @version 12/4/18
+ */
+
+public class QuestionTree{
+
+    private DefaultBinaryTree<String> tree;
+
+    public QuestionTree(){
+	tree = new DefaultBinaryTree<String>();
+
+	DefaultBinaryTreeNode<String> node1 = new DefaultBinaryTreeNode<String>();
+	node1.setData("Is the artist a group?");
+	tree.setRoot(node1);
+	DefaultBinaryTreeNode<String> node2 = new DefaultBinaryTreeNode<String>();
+	node2.setData("Is the group a boy band?");
+	node2.setParent(node1);
+	node1.setLeftChild(node2);
+	DefaultBinaryTreeNode<String> node3 = new DefaultBinaryTreeNode<String>();
+	node3.setData("Is the boyband british?");
+	node3.setParent(node2);
+	node2.setLeftChild(node3);
+	DefaultBinaryTreeNode<String> node4 = new DefaultBinaryTreeNode<String>();
+	node4.setData("Is the group a girl group?");
+	node4.setParent(node2);
+	node2.setRightChild(node4);
+	DefaultBinaryTreeNode<String> node5 = new DefaultBinaryTreeNode<String>();
+	node5.setData("Is the boy band British?");
+	node5.setParent(node3);
+	node3.setLeftChild(node5);
+	DefaultBinaryTreeNode<String> node15 =new DefaultBinaryTreeNode<String>();
+	node15.setData("One Direction");
+	node15.setParent(node5);
+	node5.setLeftChild(node15);
+	DefaultBinaryTreeNode<String> node6 = new DefaultBinaryTreeNode<String>();
+	node6.setData("Did the boy band have Justin Timberlake?");
+	node6.setParent(node3);
+	node3.setRightChild(node6);
+	DefaultBinaryTreeNode<String> node16 = new DefaultBinaryTreeNode<String>();
+	node16.setData("'Nsync");
+	node16.setParent(node6);
+	node6.setLeftChild(node16);
+	DefaultBinaryTreeNode<String> node17 = new DefaultBinaryTreeNode<String>();
+	node17.setData("Backstreet Boys");
+	node17.setParent(node6);
+	node6.setRightChild(node17);
+	DefaultBinaryTreeNode<String> node7 = new DefaultBinaryTreeNode<String>();
+	node7.setData("Destiny's Child");
+	node7.setParent(node4);
+	node4.setLeftChild(node7);
+	DefaultBinaryTreeNode<String> node8 = new DefaultBinaryTreeNode<String>();
+	node8.setData("Is the band British?");
+	node8.setParent(node4);
+	node4.setRightChild(node8);
+	DefaultBinaryTreeNode<String> node9 = new DefaultBinaryTreeNode<String>();
+	node9.setData("Is this band known for wearing a lot of makeup?");
+	node9.setParent(node8);
+	node8.setRightChild(node9);
+	DefaultBinaryTreeNode<String> node10 = new DefaultBinaryTreeNode<String>();
+	node10.setData("Was this band popular in the 1960s");
+	node10.setParent(node8);
+	node8.setLeftChild(node10);
+	DefaultBinaryTreeNode<String> node11 = new DefaultBinaryTreeNode<String>();
+	node11.setData("Kiss");
+	node11.setParent(node9);
+	node9.setLeftChild(node11);
+	DefaultBinaryTreeNode<String> node12 = new DefaultBinaryTreeNode<String>();
+	node12.setData("Nirvana");
+	node12.setParent(node9);
+	node9.setRightChild(node12);
+	DefaultBinaryTreeNode<String> node13 = new DefaultBinaryTreeNode<String>();
+	node13.setData("The Beatles");
+	node13.setParent(node10);
+	node10.setLeftChild(node13);
+	DefaultBinaryTreeNode<String> node14 = new DefaultBinaryTreeNode<String>();
+	node14.setData("Queen");
+	node14.setParent(node10);
+	node10.setRightChild(node14);
+    }
+
+    /**
+     * getTree returns the tree instance variable
+     * @return tree
+     */
+    public BinaryTree<String> getTree(){
+	return tree;
+    }
+
+    /**
+     * getLeaves returns an array of all the leaves in the tree (all artists)
+     * @return String[] of all leaves in the tree
+     */
+    public String[] getLeaves(){
+	LinkedList<String> inOrder = tree.getAllLeaves();
+	String[] leaves = new String[inOrder.size()];
+	LinkedListNode<String> current = inOrder.getFirstNode();
+        for (int i = 0; i < leaves.length; i++){
+	    leaves[i] = inOrder.getFirst();
+	    inOrder.deleteFirst();
+	}
+	return leaves;
+    }
+    
+
+}

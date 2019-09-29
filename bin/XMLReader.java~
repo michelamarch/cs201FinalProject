@@ -1,0 +1,122 @@
+//import the following libraries
+import javax.xml.parsers.*;
+import org.xml.sax.SAXException;  
+import org.w3c.dom.*;
+import java.io.*;
+
+/**
+ * XMLReader contains methods to read in and process the artists.xml file
+ * @author Michela
+ * @verson 12/4/18
+ *
+ */
+	
+public class XMLReader {
+	
+	/**
+	 * This method creates new DefaultBinaryTree<String> and calls the
+	 * parseNode method on it and the root of the XML file. 
+	 * @param document
+	 * @return a BinaryTree<String>
+	 */
+	private static BinaryTree<Question> parseFile( Document document )
+	{
+	    BinaryTree<String> tree = new DefaultBinaryTree<String>()
+		Node docRoot =  document.getDocumentElement();
+		parseNode(docRoot, tree);
+		return tree;
+
+	}
+	
+	/**
+	 * This method recursively parses each question tag. 
+	 * @param n-- which is a starting node
+	 * @param tree-- the BinaryTree so far
+	 */
+    private static void parseNode(Node n, BinaryTree<String> tree){
+		
+		//If it's a question parse it
+		if( n.getNodeType() == Node.ELEMENT_NODE ) 
+		{ 
+			Element currentElt = (Element)n;
+			NodeList myNode = currentElt.getChildNodes();
+			
+	    	for(int i=0; i < myNode.getLength(); i++)
+	    	{	
+	    		//System.out.println(currentElt.getNodeName());
+			    if( myNode.item(i).getNodeName().equals("question") )
+			    {
+			    	if(myNode.item(i).getNodeType() == Node.ELEMENT_NODE){
+			    		Element childElt = (Element)myNode.item(i);
+			    		Founder f = parseElement(childElt);
+					if(
+			    		tree.add(f);
+			    	}
+			    }
+	    		parseNode(myNode.item(i), founders);
+	    	}
+		}
+
+		
+	}
+	
+	/**
+	 * This method parses a given founder element from XML file into a founder object. 
+	 * @param founder-- a single founder tag
+	 * @return founder-- founder object representation of the element
+	 */
+	private static Founder parseFounderElement(Element founder){
+		//System.out.println("in here");
+		String ID = "";
+		String name = "";
+		String year = "";
+		String college = "";
+		ID = founder.getAttribute("id");
+		NodeList childNodes = founder.getChildNodes();
+		for ( int i = 0; i < childNodes.getLength() ; i++ )
+		{
+			Node childNode = childNodes.item(i);
+			if( childNode.getNodeName().equals( "name" ) )
+			{
+				name = childNode.getTextContent();
+			}
+			else if(childNode.getNodeName().equals( "year" ) )
+			{
+				year = childNode.getTextContent();
+			}
+			else if(childNode.getNodeName().equals( "college" ))
+			{
+			    college = childNode.getTextContent();
+			}
+		}
+		return new Founder(ID, name, year, college);
+	}
+
+	/**
+	 * This method takes an XML file, creates a document and calls parsing methods. 
+	 * @param args-- passed in through console
+	 */
+	public static void main(String[] args)
+	{
+		//Setup XML Document
+		try{
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+		
+			File xmlFile = new File( args[0] );
+			Document document = builder.parse( xmlFile );
+		
+			System.out.println(parseFounderFile(document).toString());
+		} catch (ParserConfigurationException pce) {
+			//what to do if this exception happens
+			System.out.println("ParserConfigurationException found");
+		} catch (SAXException saxe) {
+		   //what to do if this exception happens
+			System.out.println("SAXException found");
+		} catch (IOException ioe) {
+		   //what to do if this exception happens
+			System.out.println(" IOException found");
+		}
+
+	}
+}

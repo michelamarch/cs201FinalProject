@@ -1,0 +1,327 @@
+/**
+ * @author Michela Marchini
+ * @version 12/8/18
+ */
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.JOptionPane;
+import java.awt.Color;
+import javax.imageio.ImageIO;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Dimension;
+
+/**
+ * A GameMaker lets the user play the 20 questions guessing game and answer
+ * the yes or no questions presented
+ */
+public class GameMaker extends JPanel implements ActionListener
+{
+
+	//defines instance variables
+	protected JButton yesButton;
+	protected JButton noButton;
+	protected JLabel question;
+	protected QuestionTree tree = new QuestionTree();
+	protected String[] artists = tree.getArtists();
+	protected BinaryTreeNode<Question> currentNode = tree.getTree().getRoot();
+	protected Color background = new Color(204, 255,229);
+
+	/**
+	 * Constructor triggers the instructions popup and sets up the 
+	 * rest of the graphics.
+	 */
+	public GameMaker() {
+
+		// use a border layout
+		super(new BorderLayout());
+
+		//set background color
+		this.setBackground(background);
+
+		// trigger dialog instruction popup
+		createPopup();
+
+		//set up main game screen graphics
+		createHeader();
+		createButtons();
+		addQuestionArea();
+
+	}
+
+	/**
+	 * makeInstructionsa returns a formatted version of all the starting  
+	 * instructions for the dialogue box
+	 * @return formatted String of all artists
+	 */
+	protected String makeInstructions(){
+		String toRet = "Welcome to Musical 20 Questions! Please choose one " +
+				"of the following artists.\n\n";
+		for(int i = 0; i < artists.length; i++){
+			toRet += artists[i] + "\n";
+		}
+		return toRet;
+	}
+
+	/**
+	 * createPopup makes a JOptionPane with the instructions for the game
+	 */
+	protected void createPopup(){	
+		// make popup color mint green
+		UIManager UI=new UIManager();
+		UI.put("OptionPane.background", background);
+		UI.put("Panel.background", background);
+
+		Image image;
+		Image scaledImage;
+		ImageIcon icon;
+
+		// try to make the icon then instantiate the popup
+		try{
+			image = ImageIO.read(getClass().getResource("/img/questions.jpeg"));
+			scaledImage = image.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+			icon = new ImageIcon(scaledImage);
+			// activate popup
+			JOptionPane.showMessageDialog(null, makeInstructions(),
+					"20 Questions",
+					JOptionPane.INFORMATION_MESSAGE,
+					icon);
+		}
+		catch (Exception e){
+			System.out.println("exception: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * createEndPopupWin makes a JOptionPane with to signal that the computer
+	 * correctly guessed the artist
+	 */
+	protected void createEndPopupWin(){
+
+		// make popup color mint green
+		UIManager UI=new UIManager();
+		UI.put("OptionPane.background", background);
+		UI.put("Panel.background", background);
+
+		Image image;
+		Image scaledImage;
+		ImageIcon icon;
+
+		String toDisplay = "YAY! I won! Play again and try and stump me once more.";
+
+		// try to make the icon then instantiate the popup
+		try{
+			image = ImageIO.read(getClass().getResource("/img/questions.jpeg"));
+			scaledImage = image.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+			icon = new ImageIcon(scaledImage);
+			// activate popup
+			JOptionPane.showMessageDialog(null, toDisplay,
+					"CORRECTLY GUESSED",
+					JOptionPane.INFORMATION_MESSAGE,
+					icon);
+		}
+		catch (Exception e){
+			System.out.println("exception: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * createEndPopupLost makes a JOptionPane with to signal that the computer
+	 * did not correctly guess the artist
+	 */
+	protected void createEndPopupLost(){
+
+		// make popup color mint green
+		UIManager UI=new UIManager();
+		UI.put("OptionPane.background", background);
+		UI.put("Panel.background", background);
+
+		Image image;
+		Image scaledImage;
+		ImageIcon icon;
+
+		String toDisplay = "Hmmm...looks like you got me there. Try again and I'm sure I'll be able to guess correctly.";
+
+		// try to make the icon then instantiate the popup
+		try{
+			image = ImageIO.read(getClass().getResource("/img/questions.jpeg"));
+			scaledImage = image.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+			icon = new ImageIcon(scaledImage);
+			// activate popup
+			JOptionPane.showMessageDialog(null, toDisplay,
+					"INCORRECTLY GUESSED",
+					JOptionPane.INFORMATION_MESSAGE,
+					icon);
+		}
+		catch (Exception e){
+			System.out.println("exception: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * addQuestionArea creates a JPanel that holds the music notes picture
+	 * and the question JLabel
+	 */
+	protected void addQuestionArea(){
+		JPanel questionArea = new JPanel(new BorderLayout());
+		Image img;
+		Image scaledImg;
+		// add the music notes picture
+		try{
+			img = ImageIO.read(getClass().getResource("/img/music-notes.png"));
+			scaledImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+			JLabel imgLabel = new JLabel(new ImageIcon(scaledImg));
+			questionArea.add(imgLabel, BorderLayout.NORTH);
+		}
+		catch (Exception e){
+			System.out.println("exception: " + e.getMessage());
+		}
+		// set the text value and font of question, center it, and add it
+		question = new JLabel(currentNode.getData().getQuestion());
+		question.setFont(new Font("Serif",Font.BOLD, 25));
+		question.setHorizontalAlignment(JLabel.CENTER);
+		question.setVerticalAlignment(JLabel.CENTER);
+		questionArea.add(question, BorderLayout.CENTER);
+
+		this.add(questionArea, BorderLayout.CENTER);
+	}
+
+	/**
+	 * createHeader makes the "MUSICAL 20 QUESTIONS" banner
+	 */
+	protected void createHeader(){
+		JPanel header = new JPanel(new BorderLayout());
+
+		//allows the labels to each be on a new line
+		header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
+
+		//formatting newlines
+		JLabel newline = new JLabel("\n");
+		JLabel newline2 = new JLabel("\n");
+
+		JLabel text =  new JLabel(" MUSICAL 20 QUESTIONS");
+
+		//set font and center it
+		text.setHorizontalAlignment(JLabel.CENTER);
+		text.setVerticalAlignment(JLabel.CENTER);
+		text.setFont(new Font("Impact", Font.ROMAN_BASELINE, 62));
+
+		header.add(newline);
+		header.add(text);
+		header.add(newline2);
+		header.add(newline);
+
+		this.add(header, BorderLayout.NORTH);
+	}
+
+	/**
+	 * createButtons adds the yes and no buttons to the frame
+	 */
+	protected void createButtons() {
+
+		// this will make the setBackground instance method of JButton actually
+		// work!
+		try {
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		JPanel buttons = new JPanel(new GridLayout(1, 6));
+
+		// adds yes and no buttons in the right place and blank jlabels for
+		// formatting between them
+		for(int i = 0; i < 5; i++){
+			if (i == 1){
+				buttons.add(createYesButton());
+			}
+			else if (i == 3){
+				buttons.add(createNoButton());
+			}
+			else{
+				JLabel formattingLabel = new JLabel("");
+				buttons.add(formattingLabel);
+			}
+		}
+
+		this.add(buttons, BorderLayout.SOUTH);
+	}
+
+
+	/**
+	 * createYesButton creates the yes button and adds the appropriate graphics
+	 * @return the yes button
+	 */
+	private JButton createYesButton(){
+		//create a button with the appropriate text
+		yesButton = new JButton("Yes");
+		yesButton.setPreferredSize(new Dimension(80, 80));
+		yesButton.setBackground(new Color(229,204,255));
+
+		//add the action listener
+		yesButton.addActionListener(this);
+
+		return yesButton;
+	}
+
+	/**
+	 * createNoButton creates the no button and adds the appropriate graphics
+	 * @return the no button
+	 */
+	private JButton createNoButton(){
+		//create a button with the appropriate text
+		noButton = new JButton("No");
+		noButton.setPreferredSize(new Dimension(80, 80));
+		noButton.setBackground(new Color(255,229,204));
+
+		//add the action listener
+		noButton.addActionListener(this);
+
+		return noButton;
+	}
+
+	protected void refresh(){
+		currentNode = tree.getTree().getRoot();
+		question.setText(currentNode.getData().getQuestion());
+	}
+
+	/**
+	 * This method is called when a user action occurs. 
+	 * It first checks to see if the source of the action corresponds 
+	 * to one of the buttons.
+	 */
+	public void actionPerformed(ActionEvent e) {	
+		// check case for yes button clicked
+		if (e.getSource() == yesButton) {
+			if (currentNode.getLeftChild() != null){
+				currentNode = currentNode.getLeftChild();
+				question.setText(currentNode.getData().getQuestion());
+			}
+			else{
+				createEndPopupWin();
+				refresh();
+			}
+		}
+
+		// check case for no button clicked
+		if (e.getSource() == noButton) {
+			if (currentNode.getRightChild() != null){
+				currentNode = currentNode.getRightChild();
+				question.setText(currentNode.getData().getQuestion());
+			}
+			else{
+				createEndPopupLost();
+				refresh();
+			}
+		}
+	}
+}

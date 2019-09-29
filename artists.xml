@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questions>
+  <question txt= "Is the artist a group?" ans= "yes">
+    <!--Yes, it is a group -->
+    <question txt= "Is the group a boy band?" ans= "yes">
+      <!--Yes, the group is a boy band -->
+      <question txt= "Is the boy band British?" ans= "yes">
+	<!--Yes, the boy band is British-->
+	<artist ans= "yes"> One Direction </artist>
+	
+	<!--No, the boy band is not British-->
+	<question txt= "Did the boy band have Justin Timberlake?" ans= "no">
+	  <!--Yes, the boy band had JT-->
+	  <artist ans= "yes"> 'Nsync </artist>
+	  
+	  <!--No, the boy band did not have JT-->
+	  <artist ans= "no"> Backstreet Boys </artist>
+	</question>
+      </question>
+      
+      <!--No, the group is not a boy band -->
+      <question txt= "Is the group a girl group?" ans= "no">
+	<!--Yes, the group is a girl group -->
+	<artist ans= "yes"> Destiny's Child </artist>
+	
+	<!--No, the group is not a girl group -->
+	<question txt= "Is the band British?" ans= "no">
+	  <!--Yes, the band is British-->
+	  <question txt= "Was this band popular in the 1960s?" ans= "yes">
+	    <!--Yes, the band was popular in the 60s -->
+	    <artist ans= "yes"> The Beatles </artist>
+	    
+	    <!--No, the band was not popular in the 60s -->
+	    <artist ans= "no"> Queen </artist>
+	  x	</question>
+	  
+	  <!--No, the band is not British-->
+	  <question txt= "Is this band known for wearing a lot of makeup?" ans= "no">
+	    <!--Yes, the band is known for wearing a lot of makeup -->
+	    <artist ans= "yes"> Kiss </artist>
+	    
+	    <!--No, the band is not known for wearing a lot of makeup -->
+	    <artist ans= "no"> Nirvana </artist>
+	  </question>
+	</question>
+      </question>
+    </question>
+    
+    <!--No, it is not a group -->
+    <question txt= "Is the artist a woman?" ans = "no">
+      <!--Yes, the artist is a woman -->
+      <question txt= "Did she start her career in a group?" ans = "yes">
+	<!--Yes, she started her career in a group -->
+	<artist ans = "yes"> Beyonce </artist>
+	
+	<!--No, she did not start her career in a group -->
+	<question txt= "Is she British?" ans= "no">
+	  <!--Yes, she is British -->
+	  <artist ans= "yes"> Adele </artist>
+	  
+	  <!--No, she is not British -->
+	  <question txt= "Was she in American Horror Story?" ans = "no">
+	    <!--Yes, she was in AHS -->
+	    <artist ans= "yes"> Lady Gaga </artist>
+	    
+	    <!--No, she was not in AHS -->
+	    <artist ans= "no"> Rihanna </artist>
+	  </question>
+	</question>
+      </question>
+      
+      <!--No, the artist is not a woman -->
+      <question txt= "Did he start his career in a group?" ans = "no">
+	<!--Yes, he started his career in a group -->
+	<question txt= "Did he write Let It Be?" ans = "yes">
+	  <!--Yes, he wrote Let It Be -->
+	  <artist ans= "yes"> Paul McCartney </artist>
+	  
+	  <!--No, he didn't write Let It Be -->
+	  <artist ans= "no"> Harry Styles </artist>
+	</question>
+	
+	<!--No, he did not start his career in a group -->
+	<question txt = "Is he British?" ans = "no">
+	  <!--Yes, he is British -->
+	  <artist ans= "yes"> Ed Sheeran </artist>
+	  
+	  <!--No, he is not British -->
+	  <artist ans = "no"> Bruno Mars </artist>
+	</question>
+      </question>
+    </question>
+  </question>
+</questions>
+
+    
